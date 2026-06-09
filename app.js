@@ -1,6 +1,17 @@
-const GEMINI_API_KEY = 'Ab8RN6LjjSmh7WipXq4ltzkAf_J5Uul8kl6tU6hUC_f6gYwO5w';
+const GEMINI_API_KEY = 'AQ.Ab8RN6LjjSmh7WipXq4ltzkAf_J5Uul8kl6tU6hUC_f6gYwO5w';
 const SUPABASE_URL = 'https://mcutraimcyjkeofpnofr.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_0YxmbS5kkbcJF0dDNIB1Jg_fOit6Hdv';
+async function callGemini(prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+  });
+  const data = await res.json();
+  console.log('Gemini response:', JSON.stringify(data));
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || 'The stars are quiet. Please try again.';
+}
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
