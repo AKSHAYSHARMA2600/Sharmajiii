@@ -1,6 +1,6 @@
 const GEMINI_API_KEY = 'Ab8RN6LjjSmh7WipXq4ltzkAf_J5Uul8kl6tU6hUC_f6gYwO5w';
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_ANON_KEY = 'sb_publishable_0YxmbS5kkbcJF0dDNIB1Jg_fOit6Hdv';
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
