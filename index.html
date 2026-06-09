@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sharmajiii — Your AI Astrology Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="auth-screen" class="screen active">
+    <div class="auth-box">
+      <div class="logo">✦ Sharmajiii</div>
+      <p class="tagline">Your personal AI astrology guide</p>
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchAuth('login')">Login</button>
+        <button class="tab-btn" onclick="switchAuth('signup')">Sign Up</button>
+      </div>
+      <div id="auth-form">
+        <input type="email" id="auth-email" placeholder="Email address" />
+        <input type="password" id="auth-password" placeholder="Password" />
+        <button class="primary-btn" onclick="handleAuth()" id="auth-btn">Login</button>
+        <p id="auth-error" class="error-msg"></p>
+        <div class="divider"><span>or</span></div>
+        <button class="ghost-btn" onclick="continueAsGuest()">Continue as guest</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-screen" class="screen">
+    <header>
+      <div class="header-inner">
+        <div class="logo">✦ Sharmajiii</div>
+        <div class="header-right">
+          <span id="user-label" class="user-label"></span>
+          <button class="ghost-btn small" onclick="logout()">Logout</button>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" onclick="showTab('oracle', this)">Oracle</button>
+        <button class="nav-btn" onclick="showTab('horoscope', this)">Horoscope</button>
+        <button class="nav-btn" onclick="showTab('compatibility', this)">Compatibility</button>
+        <button class="nav-btn" onclick="showTab('birthchart', this)">Birth Chart</button>
+        <button class="nav-btn" onclick="showTab('history', this)">My Readings</button>
+      </nav>
+    </header>
+    <main>
+      <div id="oracle" class="tab active">
+        <div class="section-label">Select your sun sign</div>
+        <div class="sign-grid" id="oracle-signs"></div>
+        <div class="card">
+          <div class="chip-row">
+            <button class="chip" onclick="fillQ('What does this week hold for me in love?')">Love</button>
+            <button class="chip" onclick="fillQ('What career moves should I make this month?')">Career</button>
+            <button class="chip" onclick="fillQ('How can I improve my wellbeing right now?')">Wellbeing</button>
+            <button class="chip" onclick="fillQ('What finances should I be mindful of?')">Finances</button>
+            <button class="chip" onclick="fillQ('What spiritual lessons am I learning?')">Spiritual</button>
+          </div>
+          <textarea id="oracle-q" placeholder="Ask the stars anything..."></textarea>
+          <button class="primary-btn" onclick="askOracle()" id="oracle-btn">Ask the oracle</button>
+          <div class="response-area" id="oracle-response">
+            <div class="response-label">✦ The stars say</div>
+            <div class="response-text" id="oracle-text"></div>
+            <button class="save-btn" onclick="saveReading('oracle')" id="oracle-save" style="display:none">Save this reading</button>
+          </div>
+        </div>
+      </div>
+      <div id="horoscope" class="tab">
+        <div class="section-label">Choose your sign for today's horoscope</div>
+        <div class="sign-grid" id="horoscope-signs"></div>
+        <div class="card" id="horoscope-card" style="display:none">
+          <div class="response-label" id="horoscope-sign-title"></div>
+          <div class="horoscope-date" id="horoscope-date"></div>
+          <div class="response-text" id="horoscope-text"></div>
+          <div class="quality-row" id="horoscope-themes"></div>
+          <button class="save-btn" onclick="saveReading('horoscope')" id="horoscope-save" style="display:none">Save this reading</button>
+        </div>
+      </div>
+      <div id="compatibility" class="tab">
+        <div class="card">
+          <div class="section-label">Check compatibility between two signs</div>
+          <div class="compat-grid">
+            <div>
+              <label class="input-label">First sign</label>
+              <select class="select-input" id="compat1"></select>
+            </div>
+            <div class="compat-and">and</div>
+            <div>
+              <label class="input-label">Second sign</label>
+              <select class="select-input" id="compat2"></select>
+            </div>
+          </div>
+          <button class="primary-btn" onclick="checkCompat()" id="compat-btn">Reveal compatibility</button>
+          <div class="response-area" id="compat-response">
+            <div class="response-label">✦ Compatibility reading</div>
+            <div class="response-text" id="compat-text"></div>
+            <button class="save-btn" onclick="saveReading('compatibility')" id="compat-save" style="display:none">Save this reading</button>
+          </div>
+        </div>
+      </div>
+      <div id="birthchart" class="tab">
+        <div class="card">
+          <div class="section-label">Enter your birth details</div>
+          <div class="birth-grid">
+            <div>
+              <label class="input-label">Date of birth</label>
+              <input type="date" id="bday" class="text-input" />
+            </div>
+            <div>
+              <label class="input-label">Time of birth</label>
+              <input type="time" id="btime" class="text-input" />
+            </div>
+            <div>
+              <label class="input-label">City of birth</label>
+              <input type="text" id="bcity" class="text-input" placeholder="e.g. Mumbai" />
+            </div>
+          </div>
+          <button class="primary-btn" onclick="readChart()" id="chart-btn">Read my birth chart</button>
+          <div class="response-area" id="chart-response">
+            <div class="response-label">✦ Your birth chart reading</div>
+            <div class="response-text" id="chart-text"></div>
+            <button class="save-btn" onclick="saveReading('birthchart')" id="chart-save" style="display:none">Save this reading</button>
+          </div>
+        </div>
+      </div>
+      <div id="history" class="tab">
+        <div class="section-label">Your saved readings</div>
+        <div id="history-list">
+          <div class="empty-state">No saved readings yet!</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
